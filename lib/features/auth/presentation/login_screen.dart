@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }
       if (state is LoginErrorState) {
         Fluttertoast.showToast(
-            msg: "There is a problem Login",
+            msg:state.error,
             backgroundColor: Colors.red);
       }
     }, builder: (context, state) {
@@ -149,10 +149,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: InkWell(
                         onTap: (){
                           if (formKey.currentState!.validate()) {
-
                             AuthCubit.get(context).Login(
                                 email: _Email.text, password: _Password.text);
-
 
                           }
                         },

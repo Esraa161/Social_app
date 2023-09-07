@@ -6,23 +6,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/breakpoint.dart';
 import 'package:responsive_framework/responsive_breakpoints.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'core/Network/cach_helper.dart';
+import 'core/Network/Cache_helper.dart';
 import 'firebase_options.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+
   );
+await CacheHelper.init();
+
   runApp(const MyApp());
 }
 
-String _Token=getToken.toString();
+String? _Token=CacheHelper.getData(key: 'uId');
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-
+          fontFamily: 'j',
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),

@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firbaseapp/core/Network/Cache_helper.dart';
 import 'package:firbaseapp/features/auth/data/Model/user_model.dart';
 import 'package:firbaseapp/features/auth/data/cubit/auth_states.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
-import '../../../../core/Network/cach_helper.dart';
 class AuthCubit extends Cubit<AuthState>{
   AuthCubit():super(RegisterInitialState());
   static AuthCubit get (context)=>BlocProvider.of(context);
@@ -74,10 +73,10 @@ class AuthCubit extends Cubit<AuthState>{
         password: password).then((value){
       print(value.user!.email);
       print(value.user!.uid);
-      saveToken(value.user!.uid);
+     CacheHelper.saveData(key: 'uId', value: value.user!.uid);
       emit(LoginSuccessState());
     }).catchError((error){
-      emit(LoginErrorState(error!));
+      emit(LoginErrorState(error!.toString()));
     });
   }
 
