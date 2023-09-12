@@ -2,6 +2,7 @@ import 'package:firbaseapp/features/Chats/presentation/chats_screen.dart';
 import 'package:firbaseapp/features/Home/presentation/home.dart';
 import 'package:firbaseapp/features/Setting/presentation/setting_screen.dart';
 import 'package:firbaseapp/features/Users/presentation/users_screen.dart';
+import 'package:firbaseapp/features/post/presentation/post_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,6 +16,7 @@ int _currentIndex = 0;
 final List<Widget> _screens = [
   Home(),
   ChatsScreen(),
+  PostScreen(),
   UsersScreen(),
   SettingScreen(),
 ];
@@ -47,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        backgroundColor: Colors.white,
+       //backgroundColor: Colors.white,
         body: _screens[_currentIndex],
         bottomNavigationBar: BottomNavigationBar(
 
@@ -71,8 +73,12 @@ class _HomeScreenState extends State<HomeScreen> {
               label: 'Chats',
             ),
             BottomNavigationBarItem(
+              icon: Icon(Icons.add),
+              label: 'Chats',
+            ),
+            BottomNavigationBarItem(
               icon: Icon(Icons.people_alt_outlined),
-              label: 'Users',
+              label: 'Post',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),

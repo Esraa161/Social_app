@@ -205,7 +205,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: InkWell(
                           onTap: () {
                             if (formKey.currentState!.validate()) {
-
                               AuthCubit.get(context).Register(
                                   email: _Email.text,
                                   password: _Password.text,

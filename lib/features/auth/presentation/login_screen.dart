@@ -22,7 +22,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
 
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthCubit, AuthState>(listener: (context, state) async {
+    return BlocConsumer<AuthCubit, AuthState>(
+        listener: (context, state) async {
       if (state is LoginSuccessState) {
         Fluttertoast.showToast(
             msg: "Login has been completed",
@@ -40,7 +41,8 @@ class _LoginScreenState extends State<LoginScreen> {
             msg:state.error,
             backgroundColor: Colors.red);
       }
-    }, builder: (context, state) {
+    },
+        builder: (context, state) {
       return Scaffold(
           appBar: AppBar(
             toolbarHeight: 130,
