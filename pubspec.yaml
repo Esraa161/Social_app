@@ -33,6 +33,7 @@ dependencies:
   responsive_framework: ^1.1.0
   flutter_bloc:
   dio: ^5.0.0
+  path_provider: ^2.1.1
   fluttertoast: ^8.2.2
   cloud_firestore: ^4.9.1
   shared_preferences: ^2.2.1

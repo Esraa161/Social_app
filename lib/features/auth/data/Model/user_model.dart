@@ -1,10 +1,12 @@
+import 'package:flutter/cupertino.dart';
+
 class SocialUserModel{
-  String ?name;
-  String ?email;
-  String ?phone;
-  String?image;
-  String ?uId;
-  bool ?isEmailVerified;
+   String ?name;
+   String ?email;
+   String ?phone;
+   String?image;
+   String ?uId;
+    bool ?isEmailVerified;
   SocialUserModel({
     this.name,
     this.email,

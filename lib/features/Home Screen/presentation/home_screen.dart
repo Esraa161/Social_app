@@ -1,3 +1,4 @@
+import 'package:firbaseapp/core/widgets/constants.dart';
 import 'package:firbaseapp/features/Chats/presentation/chats_screen.dart';
 import 'package:firbaseapp/features/Home/presentation/home.dart';
 import 'package:firbaseapp/features/Setting/presentation/setting_screen.dart';
@@ -29,7 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           toolbarHeight: 70,
           centerTitle: true,
-          backgroundColor: Color.fromARGB(202, 36, 30, 98),
+          backgroundColor: KPrimaryColor,
+          //Color.fromARGB(202, 36, 30, 98),
           title: Row(
             children: [
               Icon(Icons.dehaze_rounded,color: Colors.white,),
@@ -56,11 +58,21 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Color.fromARGB(202, 36, 30, 98),
           elevation: 5,
           unselectedItemColor: Colors.grey,
-          selectedItemColor: Color.fromARGB(202, 36, 30, 98),
+          selectedItemColor: KPrimaryColor,
           currentIndex: _currentIndex,
           onTap: (int index) {
             setState(() {
-              _currentIndex = index;
+
+              if(index==2){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                      const PostScreen()),
+                );
+              }else{
+                _currentIndex = index;
+              }
             });
           },
           items: [
@@ -74,11 +86,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.add),
-              label: 'Chats',
+              label: 'Post',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.people_alt_outlined),
-              label: 'Post',
+              label: 'Friends',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),

@@ -1,3 +1,7 @@
+
+import 'dart:io';
+
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CacheHelper {
@@ -28,5 +32,12 @@ class CacheHelper {
     required String key,
   }) async {
     return await sharedPreferences!.remove(key);
+  }
+  static Future<void> _deleteCacheDir() async {
+    Directory tempDir = await getTemporaryDirectory();
+
+    if (tempDir.existsSync()) {
+      tempDir.deleteSync(recursive: true);
+    }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:firbaseapp/core/widgets/constants.dart';
 import 'package:firbaseapp/features/auth/data/cubit/auth_cubit.dart';
 import 'package:firbaseapp/features/auth/data/cubit/auth_states.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               automaticallyImplyLeading: false,
               toolbarHeight: 130,
               centerTitle: true,
-              backgroundColor: Color.fromARGB(202, 36, 30, 98),
+              backgroundColor: KPrimaryColor,
               title: Column(
                 children: [
                   Text(
@@ -212,7 +213,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 name: _NameController.text
                               );
 
-
+                              AuthCubit.get(context).GetUserData();
                             }
                           },
                           child: Container(
@@ -231,9 +232,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   end: Alignment.centerRight,
                                   colors: [
                                     //Colors.blue.shade200,
-                                    Color.fromARGB(202, 36, 30, 98),
+                                   KPrimaryColor,
                                     Color.fromARGB(152, 209, 157, 222),
-                                    Color.fromARGB(202, 36, 30, 98),
+                                   KPrimaryColor,
                                   ],
                                 )),
                             child: Center(
