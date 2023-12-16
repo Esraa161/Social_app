@@ -2,6 +2,8 @@ import 'package:firbaseapp/core/widgets/constants.dart';
 import 'package:firbaseapp/features/auth/presentation/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../auth/data/cubit/auth_cubit.dart';
 import '../../auth/data/cubit/auth_states.dart';
 
@@ -29,48 +31,61 @@ class _SettingScreenState extends State<SettingScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
-                  child: Stack(
-                    children: [
-                      Container(
-                        width: 150,
-                        height: 150,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: const Image(
-                                image: AssetImage(
-                                    "assets/images/User-Avatar-Profile4.png",),
-                            fit: BoxFit.cover,)),
-                      ),
-                      Positioned(
-                        bottom: 4,
-                        right: 5,
+                Stack(
+                  alignment: Alignment.centerLeft,
+                  children: [
+                    Container(
+                      width: 120,
+                      height: 120,
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: const Image(
+                              image: AssetImage(
+                                  "assets/images/User-Avatar-Profile4.png",),
+                          fit: BoxFit.cover,)),
+                    ),
+                    Positioned(
+                      bottom: 4,
+                      right: 5,
 
-                        child: Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color:KSecondryColor,
-                          border: Border.all(
-                            color: KPrimaryColor
-                          )),
-                              //Color.fromARGB(255, 248, 153, 163)),
+                      child: Container(
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color:KPinck,
+                            border: Border.all(
+                                color: Colors.white
+                            )),
+                        //Color.fromARGB(255, 248, 153, 163)),
+                        child: InkWell(
+                          onTap: (){
+
+                          },
                           child: Icon(
                             Icons.edit,
-                            color: KPrimaryColor,
+                            color: Colors.white,
                             size: 20,
                           ),
                         ),
                       ),
-                    ],
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    AuthCubit.get(context).model?.name ?? "nulll",
+                    style: TextStyle(
+                        color: KPrimaryColor, fontSize: 17),
                   ),
                 ),
                 Text(
-                  AuthCubit.get(context).model?.name ?? "nulll",
+                  AuthCubit.get(context).model?.bio ?? "nulll",
                   style: TextStyle(
-                      color: KPrimaryColor, fontSize: 17),
+                      color: Gray, fontSize: 12),
                 ),
 
                 Container(
@@ -151,7 +166,10 @@ class _SettingScreenState extends State<SettingScreen> {
                 Row(
                   children: [
                     InkWell(
-                      onTap: () {
+                      onTap: () async{
+                        await DefaultCacheManager().emptyCache();
+                         SharedPreferences prefs = await SharedPreferences.getInstance();
+                        await prefs.clear();
                         Navigator.push(context,
                             MaterialPageRoute(builder: (_) => LoginScreen()));
                       },

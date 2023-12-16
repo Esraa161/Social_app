@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 const Color KPrimaryColor = Color.fromARGB(245, 37, 3, 25);
 const Color KSecondryColor =Color.fromARGB(255, 243, 229, 212);
 const Color KPinck= Color.fromARGB(255, 248, 153, 163);
-const Color KTextColorBlack = Color(0xFF707070);
+const Color Gray = Color(0xFF707070);
 const Color KScaffoldColor = Color(0xFFF5EBE0);
 
 ////////// Cart constants ///////////////

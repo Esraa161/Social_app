@@ -6,6 +6,8 @@ class RegisterInitialState extends AuthState{}
 class RegisterLoadingState extends AuthState{}
 
 class RegisterSuccessState extends AuthState{
+  final String uId;
+  RegisterSuccessState(this.uId);
 }
 
 class RegisterErrorState extends AuthState{
@@ -32,6 +34,9 @@ class CreatUserInitialState extends AuthState{}
 class CreatUserLoadingState extends AuthState{}
 
 class CreatUserSuccessState extends AuthState{
+  final String uId;
+
+  CreatUserSuccessState(this.uId);
 }
 
 class CreatUserErrorState extends AuthState{

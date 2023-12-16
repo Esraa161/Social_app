@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../../core/Network/Cache_helper.dart';
 import '../../Home Screen/presentation/home_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -26,12 +27,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(listener: (context, state) async {
       if (state is RegisterSuccessState) {
+        CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+                (Route<dynamic> route) => false,
+          );
+        });
+
+        AuthCubit.get(context).GetUserData();
         Fluttertoast.showToast(
             msg: "Registration has been completed",
             textColor: Colors.white,
             backgroundColor: Colors.green);
       }
       if(state is CreatUserSuccessState){
+        CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+                (Route<dynamic> route) => false,
+          );
+        });
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => HomeScreen()),

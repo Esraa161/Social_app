@@ -43,14 +43,19 @@ class AuthCubit extends Cubit<AuthState> {
   }) {
     emit(CreatUserLoadingState());
     SocialUserModel model =
-        SocialUserModel(name: name, phone: phone, email: email, uId: uId,image: 'https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg');
+        SocialUserModel(
+            name: name,
+            phone: phone,
+            email: email,
+            bio: "Write your bio..................",
+            uId: uId,image: 'https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg');
     FirebaseFirestore.instance
         .collection('users')
         .doc(uId)
         .set(model.toMap())
         .then((value) {
-      emit(RegisterSuccessState());
-      emit(CreatUserSuccessState());
+      emit(RegisterSuccessState(uId));
+      emit(CreatUserSuccessState(uId));
       CacheHelper.saveData(key: 'name', value: socialUserModel!.name);
       print(CacheHelper.getData(key: name));
     }).catchError((error) {

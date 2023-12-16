@@ -34,12 +34,12 @@ class _HomeScreenState extends State<HomeScreen> {
           //Color.fromARGB(202, 36, 30, 98),
           title: Row(
             children: [
-              Icon(Icons.dehaze_rounded,color: Colors.white,),
+              Icon(Icons.dehaze_rounded,color:KPinck,),
               Spacer(),
-              Icon(Icons.notifications,color: Colors.white,),
+              Icon(Icons.notifications,color: KPinck,),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Icon(Icons.search,color: Colors.white,),
+                child: Icon(Icons.search,color:KPinck,),
               ),
 
             ],
