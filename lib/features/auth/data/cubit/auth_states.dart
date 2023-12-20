@@ -55,3 +55,24 @@ class GetUserErrorState extends AuthState{
   final String error;
   GetUserErrorState(this.error);
 }
+class ProfileImageLoadingState extends AuthState{}
+
+class ProfileImageSuccessState extends AuthState{
+
+}
+
+class ProfileImageErrorState extends AuthState{
+  final String error;
+  ProfileImageErrorState(this.error);
+}
+
+
+class UpdateUserLoadingState extends AuthState{}
+class UpdateUserSuccessState extends AuthState{
+
+}
+
+class UpdateUserErrorState extends AuthState{
+  final String error;
+  UpdateUserErrorState(this.error);
+}

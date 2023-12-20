@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,6 +6,7 @@ import 'package:firbaseapp/core/Network/Cache_helper.dart';
 import 'package:firbaseapp/features/auth/data/Model/user_model.dart';
 import 'package:firbaseapp/features/auth/data/cubit/auth_states.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthCubit extends Cubit<AuthState> {
@@ -75,6 +77,7 @@ class AuthCubit extends Cubit<AuthState> {
       CacheHelper.saveData(key: "uId", value: value.user!.uid);
       print("??????????????????????????????????????");
       print(CacheHelper.getData(key: 'uId'));
+
       emit(LoginSuccessState(value.user!.uid));
     }).catchError((error) {
       emit(LoginErrorState(error!.toString()));
@@ -103,4 +106,81 @@ class AuthCubit extends Cubit<AuthState> {
       emit(GetUserErrorState(error.toString()));
     });
   }
-}
+  String ?profileImageUrl;
+  Future<void>UploadProfileImage({
+
+    required File?profileImage,
+
+
+  })async{
+    emit(ProfileImageLoadingState());
+    await FirebaseStorage.instance
+        .ref()
+        .child('users/${Uri.file(profileImage!.path?? "").pathSegments.last}')
+        .putFile(profileImage,)
+        .then((value){
+      value.ref.getDownloadURL().then((value) {
+        print("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
+        print(value.toString());
+        profileImageUrl=value;
+        emit(ProfileImageSuccessState());
+      });
+      // .catchError((error){});
+      // });
+      // .catchError((error){
+      //  emit(ProfileImageErrorState(error));
+    });
+
+  }
+ // SocialUserModel ?model;
+  void UpdateUser(
+      {
+        required String?name,
+        required String?phone,
+        required String?email,
+        required String?bio,
+        required File?profileImage
+      }
+
+      )async{
+    // if(profileImageUrl!=null){
+    //   UploadProfileImage(profileImage: profileImage);
+    //   SocialUserModel model =
+    //   SocialUserModel(
+    //
+    //       name: name,
+    //       phone: phone,
+    //       email: email,
+    //       bio: bio,
+    //       uId: CacheHelper.getData(key: 'uId'),
+    //       image: profileImageUrl
+    //     //image: profileImageUrl,
+    //   );
+    //   FirebaseFirestore.instance.collection('users').doc(CacheHelper.getData(key: 'uId')).update(model.toMap()).then((value){
+    //     GetUserData();
+    //     print("1111111111111111111111111111111111111111111111111111");
+    //   }).catchError((error){});
+    // }else{
+    emit(UpdateUserLoadingState());
+      await UploadProfileImage(profileImage: profileImage);
+      SocialUserModel model =
+       SocialUserModel(
+
+        name: name,
+        phone: phone,
+        email: email,
+        bio: bio,
+        uId: CacheHelper.getData(key: 'uId'),
+        image: profileImageUrl,
+      );
+      FirebaseFirestore.instance.collection('users').doc(CacheHelper.getData(key: 'uId')).update(model.toMap()).then((value){
+        GetUserData();
+        print("......................................................");
+        emit(UpdateUserSuccessState());
+      }).catchError((error){
+        emit(UpdateUserErrorState(error));
+      });
+    }
+
+  }
+//}
