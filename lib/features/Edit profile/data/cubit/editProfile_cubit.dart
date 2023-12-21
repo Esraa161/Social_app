@@ -21,6 +21,9 @@ String ?profileImageUrl;
 
 })async{
     emit(ProfileImageLoadingState());
+
+        Center(child: CircularProgressIndicator());
+
    await FirebaseStorage.instance
         .ref()
        .child('users/${Uri.file(profileImage!.path?? "").pathSegments.last}')

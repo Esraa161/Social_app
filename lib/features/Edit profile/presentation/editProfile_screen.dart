@@ -1,8 +1,6 @@
 import 'dart:io';
-
+import 'package:firbaseapp/core/Network/Cache_helper.dart';
 import 'package:firbaseapp/core/widgets/constants.dart';
-import 'package:firbaseapp/features/Edit%20profile/data/cubit/editProfile_cubit.dart';
-import 'package:firbaseapp/features/Edit%20profile/data/cubit/editProfile_states.dart';
 import 'package:firbaseapp/features/auth/data/cubit/auth_cubit.dart';
 import 'package:firbaseapp/features/auth/data/cubit/auth_states.dart';
 import 'package:flutter/material.dart';
@@ -17,26 +15,17 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   var formKey = GlobalKey<FormState>();
-
-  bool _obscureText = true;
-
+  bool isloading =false;
   var _name = TextEditingController();
-
   var _email = TextEditingController();
-
   var _phone = TextEditingController();
-
   var _bio = TextEditingController();
-
-  String basePhoto =
-      "http://148.113.1.230:2060/vansales/Emplyee/getimg?imgpath=c:\\company_data\\circle_2_test";
 
   File? profileimage;
   File? profileimage2;
   XFile? ImageFileProfile;
 String? imagePath;
   final picker = ImagePicker();
-
   Future<void> getProfileImageByGallery() async {
     XFile? imageFileProfile =
     await picker.pickImage(source: ImageSource.gallery);
@@ -59,17 +48,41 @@ String? imagePath;
     });
 
   }
-
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var model =AuthCubit.get(context).model;
+    CacheHelper.saveData(key: 'ProfileImage', value: model!.image);
+  }
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthCubit,AuthState>(
-      listener:(context,state){},
-    builder: (context,state){
-        var model =AuthCubit.get(context).model;
-        if(state is UpdateUserLoadingState){
-          return Center(child: CircularProgressIndicator());
-        }else{
-          return Scaffold(
+    return BlocListener<AuthCubit,AuthState>(
+      listener:(context,state){
+
+        if(state is ProfileImageLoadingState){
+          setState(() {
+            isloading =true;
+          });
+
+
+        }
+        else if(state is ProfileImageSuccessState){
+          Fluttertoast.showToast(
+            msg: 'The profile has been Updated !',
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+          );
+          Navigator.pop(context);
+        }
+      },
+    child:isloading?Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
+    )
+        :Scaffold(
             appBar: AppBar(
               title: Text('Edit Profile'),
               leading: Icon(Icons.arrow_back_ios,color: KPinck,),
@@ -93,7 +106,7 @@ String? imagePath;
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(100),
                                   child:  Image(
-                                      image:profileimage==null?NetworkImage("${model?.image}"):FileImage(profileimage!) as ImageProvider,
+                                      image:profileimage==null?NetworkImage("${CacheHelper.getData(key: 'ProfileImage')}"):FileImage(profileimage!) as ImageProvider,
                                       fit: BoxFit.cover)),
                             ),
                             Positioned(
@@ -410,17 +423,18 @@ String? imagePath;
 
                               // EditProfileCubit.get(context).UploadProfileImage(
                               //     profileImage:profileimage );
-                              AuthCubit.get(context).UpdateUser(
+                              AuthCubit.get(context).UploadProfileImageWithData(
                                   name: _name.text,
                                   phone: _phone.text,
                                   email: _email.text,
                                   bio: _bio.text,
                                   profileImage: profileimage );
                               print("pppppppppppppppppppppppppppppppppppp");
+
                               // EditProfileCubit.get(context).uploadProfileImage(
                               //     profileImage:profileimage );
                               print(imagePath);
-                              Navigator.pop(context);
+
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -444,10 +458,10 @@ String? imagePath;
             ),
 
 
-          );
-        }
+          )
 
-    },);
+
+    ,);
   }
 
 }

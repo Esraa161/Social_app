@@ -15,3 +15,4 @@ const String columnQuantity = 'quantity';
 const String columnPrice = 'price';
 const String columnTotalPrice = 'totalPrice';
 const String columnProductId = 'productId';
+

@@ -107,14 +107,15 @@ class AuthCubit extends Cubit<AuthState> {
     });
   }
   String ?profileImageUrl;
-  Future<void>UploadProfileImage({
-
+  UploadProfileImageWithData({
     required File?profileImage,
-
-
+    required String?name,
+    required String?phone,
+    required String?email,
+    required String?bio,
   })async{
     emit(ProfileImageLoadingState());
-    await FirebaseStorage.instance
+     FirebaseStorage.instance
         .ref()
         .child('users/${Uri.file(profileImage!.path?? "").pathSegments.last}')
         .putFile(profileImage,)
@@ -122,7 +123,23 @@ class AuthCubit extends Cubit<AuthState> {
       value.ref.getDownloadURL().then((value) {
         print("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
         print(value.toString());
-        profileImageUrl=value;
+        profileImageUrl=  value;
+        SocialUserModel model =
+        SocialUserModel(
+          name: name,
+          phone: phone,
+          email: email,
+          bio: bio,
+          uId: CacheHelper.getData(key: 'uId'),
+          image:  profileImageUrl,
+        );
+        FirebaseFirestore.instance.collection('users').doc(CacheHelper.getData(key: 'uId')).update(model.toMap()).then((value){
+          GetUserData();
+          print("......................................................");
+          emit(UpdateUserSuccessState());
+        }).catchError((error){
+          emit(UpdateUserErrorState(error));
+        });
         emit(ProfileImageSuccessState());
       });
       // .catchError((error){});
@@ -162,16 +179,15 @@ class AuthCubit extends Cubit<AuthState> {
     //   }).catchError((error){});
     // }else{
     emit(UpdateUserLoadingState());
-      await UploadProfileImage(profileImage: profileImage);
+   // UploadProfileImage(profileImage: profileImage);
       SocialUserModel model =
        SocialUserModel(
-
         name: name,
         phone: phone,
         email: email,
         bio: bio,
         uId: CacheHelper.getData(key: 'uId'),
-        image: profileImageUrl,
+        image:  profileImageUrl,
       );
       FirebaseFirestore.instance.collection('users').doc(CacheHelper.getData(key: 'uId')).update(model.toMap()).then((value){
         GetUserData();
