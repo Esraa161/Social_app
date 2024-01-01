@@ -17,10 +17,9 @@ class PostCubit extends Cubit<PostStates> {
   PostModel ?model;
   String ?postImageUrl;
   Future<void>UploadPostImage({
-    required File?profileImage,
     required String ?dateTime,
     required  String?text,
-    required String?postImage
+    required File?postImage
   })async{
     emit(PostImageLoadingState());
 
@@ -28,8 +27,8 @@ class PostCubit extends Cubit<PostStates> {
 
     await FirebaseStorage.instance
         .ref()
-        .child('posts/${Uri.file(profileImage!.path?? "").pathSegments.last}')
-        .putFile(profileImage!,)
+        .child('posts/${Uri.file(postImage!.path?? "").pathSegments.last}')
+        .putFile(postImage!,)
         .then((value){
       value.ref.getDownloadURL().then((value) {
         print("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
