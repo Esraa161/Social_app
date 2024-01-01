@@ -3,6 +3,7 @@ import 'package:firbaseapp/features/Edit%20profile/data/cubit/editProfile_cubit.
 import 'package:firbaseapp/features/Home%20Screen/presentation/home_screen.dart';
 import 'package:firbaseapp/features/auth/data/cubit/auth_cubit.dart';
 import 'package:firbaseapp/features/auth/presentation/login_screen.dart';
+import 'package:firbaseapp/features/post/data/cubit/post_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -67,6 +68,9 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider<EditProfileCubit>(
           create: (BuildContext context) => EditProfileCubit(),
+        ),
+        BlocProvider<PostCubit>(
+          create: (BuildContext context) => PostCubit(),
         )
       ],
       child: MaterialApp(
